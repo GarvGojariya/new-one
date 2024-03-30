@@ -1,0 +1,9 @@
+{
+    "bracketSpacing":true,
+    "tabWidth":4,
+    "trailingComma":"es5",
+    "semi":true,
+    "singleQuote":false,
+    "jsxSingleQuote": false,
+    "htmlWhitespaceSensitivity": "css"
+}
