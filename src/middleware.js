@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import * as jose from "jose";
+// import { db } from "../database/db";
 export async function middleware(req) {
     // await db.initialize();
     try {
@@ -16,6 +17,7 @@ export async function middleware(req) {
             };
             req.user = user;
         }
+        console.log(req);
         const isPublicPath =
             path == "/user/login" ||
             path == "/user/register" ||

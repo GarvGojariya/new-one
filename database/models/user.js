@@ -1,8 +1,6 @@
-import jwt from "jsonwebtoken";
 import * as jose from "jose";
 import { DataTypes } from "sequelize";
-import bcrypt from "bcrypt";
-
+import bcryptjs from "bcryptjs";
 export const userModel = (sequelize) => {
     const User = sequelize.define("User", {
         name: {
@@ -34,7 +32,8 @@ export const userModel = (sequelize) => {
     // Attach hook to hash password before creating a new user
     User.beforeCreate(async (user, options) => {
         if (user.changed("password")) {
-            user.password = await bcrypt.hash(user.password, 10);
+            const salt = await bcryptjs.genSalt(10);
+            user.password = await bcryptjs.hash(password, salt);
         }
     });
     User.prototype.generateAccessToken = async function () {
@@ -80,7 +79,7 @@ export const userModel = (sequelize) => {
             .sign(new TextEncoder().encode(process.env.REFRESH_TOKEN_SECRET));
     };
     User.prototype.isPasswordCorrect = async function (password) {
-        return bcrypt.compare(password, this.password);
+        return bcryptjs.compare(password, this.password);
     };
     return User;
 };
